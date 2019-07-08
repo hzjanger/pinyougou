@@ -1,0 +1,95 @@
+<h3>规格管理</h3>
+<div>
+  <button nz-button nzType="default" (click)="showModal(false)">新建</button>
+  <button nz-button nzType="default" (click)="delete()">删除</button>
+</div>
+
+<form nz-form [nzLayout]="'inline'" [formGroup]="searchForm" (ngSubmit)="submitForm()">
+  <nz-form-item>
+    <nz-form-control nzErrorTip="Please input your username!">
+      <nz-input-group nzPrefixIcon="search">
+        <input formControlName="userName" nz-input placeholder="规格名称" />
+      </nz-input-group>
+    </nz-form-control>
+  </nz-form-item>
+  <nz-form-item>
+    <nz-form-control>
+      <button nz-button nzType="primary" [disabled]="!searchForm.valid">查询</button>
+    </nz-form-control>
+  </nz-form-item>
+</form>
+
+
+<nz-table
+  #rowSelectionTable
+  nzShowSizeChanger
+  [nzShowPagination]="false"
+  [nzData]="listOfAllData"
+  (nzCurrentPageDataChange)="currentPageDataChange($event)"
+>
+  <thead>
+  <tr>
+    <th
+      nzShowCheckbox
+      nzShowRowSelection
+      [nzSelections]="listOfSelection"
+      [(nzChecked)]="isAllDisplayDataChecked"
+      [nzIndeterminate]="isIndeterminate"
+      (nzCheckedChange)="checkAll($event)"
+    ></th>
+    <th>规格ID</th>
+    <th>规格名称</th>
+    <th>操作</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr *ngFor="let data of rowSelectionTable.data">
+    <td nzShowCheckbox [(nzChecked)]="mapOfCheckedId[data.id]" (nzCheckedChange)="refreshStatus()"></td>
+    <td>{{ data.id }}</td>
+    <td>{{ data.specName }}</td>
+    <td><button nz-button nzType="primary" (click)="showModal(data.id)">修改</button></td>
+  </tr>
+  </tbody>
+</nz-table>
+<nz-pagination [nzPageIndex]="1" [nzTotal]="500"></nz-pagination>
+
+
+<nz-modal [nzWidth]="600" [(nzVisible)]="isUpdate || isAdd" nzTitle="规格编辑" (nzOnCancel)="handleCancel()" (nzOnOk)="handleOk()">
+  <form nz-form [nzLayout]="'inline'" [formGroup]="specificationForm">
+    <nz-form-item >
+      <nz-form-control nzErrorTip="Please input your username!" >
+        <nz-input-group>
+          <input formControlName="userName" nz-input placeholder="规格" />
+        </nz-input-group>
+      </nz-form-control>
+    </nz-form-item>
+    <div>
+      <button nz-button nzType="primary" (click)="addSpecificationOption()">新增规格选项</button>
+    </div>
+    <div formArrayName="specificationOption">
+      <div *ngFor="let specification of specificationOption.controls; let i=index;">
+        <div [formGroupName]="i">
+          <nz-form-item >
+            <nz-form-control nzErrorTip="Please input your username!" >
+              <nz-input-group>
+                <input formControlName="optionName" nz-input placeholder="规格" />
+              </nz-input-group>
+            </nz-form-control>
+          </nz-form-item>
+          <nz-form-item >
+            <nz-form-control nzErrorTip="Please input your username!" >
+              <nz-input-group>
+                <input formControlName="orders" nz-input placeholder="排序" />
+              </nz-input-group>
+            </nz-form-control>
+          </nz-form-item>
+          <nz-form-item>
+            <nz-form-control>
+              <button nz-button nzType="primary" (click)="deleteSpecificationOption(i)">删除</button>
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+      </div>
+    </div>
+  </form>
+</nz-modal>
