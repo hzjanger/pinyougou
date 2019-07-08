@@ -31,7 +31,8 @@ module.exports = {
                 children: [
                     "brandManager/",
                     "brandManager/brandPage",
-                    "brandManager/specificationManager"
+                    "brandManager/specificationManager",
+                    "brandManager/typeTemplateManager"
                 ]
             }
         ]
