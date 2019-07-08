@@ -1,0 +1,9 @@
+{
+  "/hzjMa": {
+    "target": "http://127.0.0.1:9101",
+    "secure": false,
+    "pathRewrite": {"^/hzjMa" : "http://127.0.0.1:9101"},
+    "changeOrigin": "true",
+    "logLevel": "debug"
+  }
+}
