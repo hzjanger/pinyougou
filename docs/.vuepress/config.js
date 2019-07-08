@@ -30,7 +30,8 @@ module.exports = {
                 collapsable: false,
                 children: [
                     "brandManager/",
-                    "brandManager/brandPage"
+                    "brandManager/brandPage",
+                    "brandManager/specificationManager"
                 ]
             }
         ]
