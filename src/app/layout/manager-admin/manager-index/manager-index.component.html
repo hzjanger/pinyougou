@@ -1,0 +1,42 @@
+<nz-layout class="manager-box">
+  <nz-header>
+    <i
+      class="trigger"
+      nz-icon
+      [nzType]="isCollapsed ? 'menu-unfold' : 'menu-fold'"
+      (click)="isCollapsed = !isCollapsed"
+    ></i>
+  </nz-header>
+
+  <nz-layout>
+    <nz-sider nzCollapsible [(nzCollapsed)]="isCollapsed" [nzTrigger]="null">
+      <div class="logo"></div>
+      <ul nz-menu nzTheme="dark" nzMode="inline" [nzInlineCollapsed]="isCollapsed">
+        <li nz-submenu nzTitle="User" nzIcon="user">
+          <ul>
+            <li nz-menu-item>Tom</li>
+            <li nz-menu-item>Bill</li>
+            <li nz-menu-item>Alex</li>
+          </ul>
+        </li>
+        <li nz-submenu nzTitle="商品管理" nzIcon="team">
+          <ul>
+            <li nz-menu-item [nzMatchRouter]="true" routerLink="./brandManager">品牌管理</li>
+            <li nz-menu-item [nzMatchRouter]="true" routerLink="./specification">规格管理</li>
+            <li nz-menu-item [nzMatchRouter]="true" routerLink="./typeTemplate">模板管理</li>
+            <li nz-menu-item>Team 2</li>
+          </ul>
+        </li>
+        <li nz-menu-item>
+          <i nz-icon nzType="file"></i>
+          <span>File</span>
+        </li>
+      </ul>
+    </nz-sider>
+    <nz-content>
+      <router-outlet></router-outlet>
+    </nz-content>
+
+  </nz-layout>
+<!--  <nz-footer>Ant Design ©2019 Implement By Angular</nz-footer>-->
+</nz-layout>
