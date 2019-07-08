@@ -1,0 +1,105 @@
+<h4>商品类型模板管理</h4>
+<div nz-row nzType="flex" nzJustify="space-between">
+  <div nz-col nzSpan="5">
+    <button nz-button nzType="default" (click)="showModal()">新建</button>
+    <button nz-button nzType="default">删除</button>
+  </div>
+  <div nz-col nzSpan="7">
+    <form nz-form nzLayout="inline" (ngSubmit)="submitForm()">
+      <nz-form-item>
+        <nz-form-control>
+          <nz-input-group>
+            <input nz-input placeholder="分类模板名称">
+          </nz-input-group>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-control>
+          <button nz-button nzType="primary">查询</button>
+        </nz-form-control>
+      </nz-form-item>
+    </form>
+  </div>
+</div>
+
+<div nz-row>
+  <nz-table #rowSelectionTable
+            [nzShowPagination]="false"
+            [nzData]="listOfData"
+            (nzCurrentPageDataChange)="currentPageDataChange($event)">
+    <thead>
+      <tr>
+        <th nzShowCheckbox
+            nzShowRowSelection
+            [nzSelections]="listOfSelection"
+            [(nzChecked)]="isAllDisplayDataChecked"
+            [nzIndeterminate]="isIndeterminate" (nzCheckedChange)="checkAll($event)"></th>
+        <th>模板ID</th>
+        <th>分类模板名称</th>
+        <th>分类模板名称</th>
+        <th>分类模板名称</th>
+        <th>扩展属性</th>
+        <th>操作</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let list of listOfData">
+        <td nzShowCheckbox
+            [(nzChecked)]="mapOfCheckedId[list.id]"
+            (nzCheckedChange)="refreshStatus()"></td>
+        <td>{{list.id}}</td>
+        <td>{{list.name}}</td>
+        <td>{{list.brandIds}}</td>
+        <td>{{list.specIds}}</td>
+        <td>{{list.customAttributeItems}}</td>
+        <td><button nz-button>修改</button></td>
+      </tr>
+    </tbody>
+  </nz-table>
+</div>
+
+
+<nz-modal [(nzVisible)]="visible" nzTitle="商品类型模板编辑" (nzOnCancel)="handleCancel()" (nzOnOk)="handleOk()">
+  <form nz-form [formGroup]="typeTemplateForm">
+    <nz-form-item>
+      <nz-form-control>
+        <input nz-input placeholder="商品类型" formControlName="name">
+      </nz-form-control>
+    </nz-form-item>
+    <nz-select
+      style="width: 100%"
+      nzMode="multiple"
+      nzPlaceHolder="Inserted are removed"
+      formControlName="specIds">
+      <ng-container *ngFor="let option of specIdsListOfOption">
+        <nz-option [nzLabel]="option.text" [nzValue]="option.text" *ngIf="isNotSelected(option.text)"></nz-option>
+      </ng-container>
+    </nz-select>
+    <nz-select style="width: 100%;"
+               nzMode="multiple"
+               nzPlaceHolder="规格"
+               formControlName="brandIds">
+      <ng-container *ngFor="let option of brandNameListOption">
+        <nz-option [nzLabel]="option.text" [nzValue]="option.text" *ngIf="brandNameSelected(option.text)"></nz-option>
+      </ng-container>
+    </nz-select>
+    <div>
+      扩展属性<button nz-button type="button" (click)="addOption()">新增扩展属性</button>
+    </div>
+    <div formArrayName="customAttributeItems">
+      <div nz-row *ngFor="let custom of customAttributeItems.controls; let i = index;">
+        <div nz-col nzSpan="20">
+          <nz-form-item>
+            <nz-form-control>
+              <input nz-input placeholder="名称" [formControlName]="i">
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+        <div nz-col nzSpan="4">
+          <button nz-button (click)="deleteOption(i)">删除</button>
+        </div>
+      </div>
+    </div>
+
+  </form>
+</nz-modal>
